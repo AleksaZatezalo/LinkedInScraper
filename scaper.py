@@ -39,8 +39,7 @@ def search_job(driver, search):
     Searches for jobs that match search variable search.
     """
     
-    # format search string to url format
-    # driver.get("https://www.linkedin.com/jobs/search/?keywords={srch}&origin=SUGGESTION").format(srch = search)
+    driver.get("https://www.linkedin.com/jobs/search/?keywords={0}&origin=SUGGESTION".format(search))
     return 0
 
 ###########################
