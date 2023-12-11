@@ -1,8 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import Select
+from pyfiglet import Figlet
 from bs4 import BeautifulSoup
 import time
 
@@ -45,7 +44,7 @@ def search_job(driver, search):
 ###########################
 # Scraping Functionality
 ###########################
-def get_jobs(search):
+def get_jobs(driver, search):
     """
     Gets a list of jobs that have search in there title. 
     Returns a 3D array with jobs, there company and there discriptions.
@@ -53,28 +52,41 @@ def get_jobs(search):
 
     pass
 
-def get_connections(company):
-    """
-    Gets a list of proffesional connections that work at a company.
-    """
-    
-    pass
 
-def job_description(job_descriptions, file):
+def save_to_file(results, file):
     """
-    Saves job_descption to file. Takes a 2D array containing Job Titles, Connections Boolean and Descriptions job_descriptions.
-    Saves to file, file.
+    Saves the output of the get_jobs function to file file.
     """
 
+    # output = get_jobs(driver, search)
     pass
 
 def main():
-    email = input("what is your email? ")
-    passwd = input("what is your password? ")
-    search = input("what jobs are you looking for? ")
+    # Launch
+    f = Figlet(font='slant')
+    print(f.renderText("LinkedIn Job Scraper"))
+
+    ###################################
+    # THE TO DO LIST
+    ###################################
+    # Make input fields arguemnts
+    # Make Defaults like printing to STDER
+    # Add Shebang to Script
+    
+    # Set up
+    email = input("what is your email? ") # Make this an argument
+    passwd = input("what is your password? ") # Make this an argument
+    search = input("what jobs are you looking for? ") # Make this an argument
+    out_file = input("which file would you like to save to? ") # Make this an argument (default print to stderr)
+    
+    # Do the search
     drive = create_driver()
     authenticate(drive, email, passwd)
     search_job(drive, search)
+    
+    # Scrape and Save
+    output = get_jobs(drive, search)
+    save_to_file(output, out_file)
 
 if __name__ == '__main__':
     main()
