@@ -29,6 +29,7 @@ def authenticate(driver, username, password):
     passwd = driver.find_element(By.ID, "session_password")
     email.send_keys(username)
     passwd.send_keys(password)
+    driver.find_element(By.XPATH, "//button[@type='submit']").click()
     time.sleep(10)
 
     return 0
@@ -37,16 +38,10 @@ def search_job(driver, search):
     """
     Searches for jobs that match search variable search.
     """
-
-    pass
-
-def see_connections(driver, company):
-    """
-    Returns a list of people I know that work at a company.
-    """
     
-    pass
-
+    # format search string to url format
+    # driver.get("https://www.linkedin.com/jobs/search/?keywords={srch}&origin=SUGGESTION").format(srch = search)
+    return 0
 
 ###########################
 # Scraping Functionality
@@ -66,10 +61,6 @@ def get_connections(company):
     
     pass
 
-###########################
-# Wrighting to Files
-###########################
-
 def job_description(job_descriptions, file):
     """
     Saves job_descption to file. Takes a 2D array containing Job Titles, Connections Boolean and Descriptions job_descriptions.
@@ -81,8 +72,10 @@ def job_description(job_descriptions, file):
 def main():
     email = input("what is your email? ")
     passwd = input("what is your password? ")
+    search = input("what jobs are you looking for? ")
     drive = create_driver()
     authenticate(drive, email, passwd)
+    search_job(drive, search)
 
 if __name__ == '__main__':
     main()
