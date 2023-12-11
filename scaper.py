@@ -19,13 +19,19 @@ def create_driver():
     driver = webdriver.Chrome(service=service)
     return driver
 
-def authenticate(driver):
+def authenticate(driver, username, password):
     """
     Authenticate to LinkedIn in order to browse it. Uses browser driver browser.
     """
 
-    # driver.get("https://www.linkedin.com/")
-    pass
+    driver.get("https://www.linkedin.com/")
+    email = driver.find_element(By.ID, "session_key")
+    passwd = driver.find_element(By.ID, "session_password")
+    email.send_keys(username)
+    passwd.send_keys(password)
+    time.sleep(10)
+
+    return 0
 
 def search_job(driver, search):
     """
@@ -71,3 +77,10 @@ def job_description(job_descriptions, file):
     """
 
     pass
+
+def main():
+    drive = create_driver()
+    authenticate(drive, "fakeemail", "password")
+
+if __name__ == '__main__':
+    main()
