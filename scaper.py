@@ -79,8 +79,10 @@ def job_description(job_descriptions, file):
     pass
 
 def main():
+    email = input("what is your email? ")
+    passwd = input("what is your password? ")
     drive = create_driver()
-    authenticate(drive, "fakeemail", "password")
+    authenticate(drive, email, passwd)
 
 if __name__ == '__main__':
     main()
