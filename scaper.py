@@ -33,25 +33,58 @@ def authenticate(driver, username, password):
 
     return 0
 
-def search_job(driver, search):
+def search_profile(driver, search):
     """
     Searches for jobs that match search variable search.
     """
     
-    driver.get("https://www.linkedin.com/jobs/search/?keywords={0}&origin=SUGGESTION".format(search))
+    driver.get("https://www.linkedin.com/in/{0}".format(search))
     return 0
 
 ###########################
 # Scraping Functionality
 ###########################
-def get_jobs(driver, search):
+def get_profile(driver, search):
     """
     Gets a list of jobs that have search in there title. 
     Returns a 3D array with jobs, there company and there discriptions.
     """
 
-    pass
+    search_profile(driver,  search)
+    src = driver.page_source
 
+    # Scroll to the bottom
+    
+
+    start = time.time()
+    # will be used in the while loop
+    initialScroll = 0
+    finalScroll = 1000
+ 
+    # while True:
+    #     driver.execute_script(f"window.scrollTo({initialScroll},{finalScroll})")
+    #     # this command scrolls the window starting from
+    #     # the pixel value stored in the initialScroll 
+    #     # variable to the pixel value stored at the
+    #     # finalScroll variable
+    #     initialScroll = finalScroll
+    #     finalScroll += 1000
+    
+    #     # we will stop the script for 3 seconds so that 
+    #     # the data can load
+    #     time.sleep(3)
+    #     # You can change it as per your needs and internet speed
+    
+    #     end = time.time()
+    
+    #     # We will scroll for 20 seconds.
+    #     # You can change it as per your needs and internet speed
+    #     if round(end - start) > 20:
+    #         break
+
+    soup = BeautifulSoup(src, 'lxml')
+    intro = soup.find('div', {'class': 'pv-text-details__left-panel'})
+    return intro
 
 def save_to_file(results, file):
     """
@@ -64,7 +97,7 @@ def save_to_file(results, file):
 def main():
     # Launch
     f = Figlet(font='slant')
-    print(f.renderText("LinkedIn Job Scraper"))
+    print(f.renderText("LinkedIn Profile Scraper"))
 
     ###################################
     # THE TO DO LIST
@@ -76,17 +109,16 @@ def main():
     # Set up
     email = input("what is your email? ") # Make this an argument
     passwd = input("what is your password? ") # Make this an argument
-    search = input("what jobs are you looking for? ") # Make this an argument
-    out_file = input("which file would you like to save to? ") # Make this an argument (default print to stderr)
+    search = input("what jobs are you profile for? ") # Make this an argument
     
     # Do the search
     drive = create_driver()
     authenticate(drive, email, passwd)
-    search_job(drive, search)
+    search_profile(drive, search)
     
     # Scrape and Save
-    output = get_jobs(drive, search)
-    save_to_file(output, out_file)
+    output = get_profile(drive, search)
+    print(output)
 
 if __name__ == '__main__':
     main()
